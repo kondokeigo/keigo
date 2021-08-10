@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>m3_5</title>
+    </head>
+    <body>
+どーも、お待たせしやした！<br>
+
+たぶん自己紹介の時にゆーてるやろーけど、みんなの趣味とか特技ってなーに？<br>
+とーごの回答はおもろいよな？？？
+        <?php
+            $newname="";
+            $newcomment="";
+            $newedit="";
+                if(!empty($_POST["offedit"])&& !empty($_POST["pass3"])){
+                    $offedit=$_POST["offedit"];
+                    $pass3=($_POST["pass3"]);
+                    $filename="m3_5.txt";
+                    if(file_exists($filename)){
+                        $lines=file($filename,FILE_IGNORE_NEW_LINES);
+                        foreach($lines as $line){
+                            $abc=explode("<>",$line);
+                            if($abc[0]==$offedit && ($pass3==$abc[4])){
+                                $newname=$abc[1];
+                                $newcomment=$abc[2];
+                                $newedit=$abc[0];
+                            }
+                        }
+                    }
+                }
+        ?>
+        
+        <form action="" method="post">
+                <input type="hidden" name="hensyuu" value="<?php echo $newedit; ?>">
+            <br><label>入力欄</label><br>
+                <input type="text" name="name" placeholder="名前" value="<?php echo $newname; ?>"><br>
+                <input type="text" name="comment" placeholder="コメント" value="<?php echo $newcomment; ?>"><br>
+                <input type="text" name="pass1" placeholder="パスワード">
+                <input type="submit" value="送信"><br>
+            <br><label>削除欄</label><br>
+                <input type="text" name="delete" placeholder="削除したい番号"><br>
+                <input type="text" name="pass2" placeholder="パスワード">
+                <input type="submit" name="dsubmit" value="削除"><br>
+            <br><label>編集欄</label> <br>  
+                <input type="text" name="offedit" placeholder="編集したい番号"><br>
+                <input type="text" name="pass3" placeholder="パスワード">
+                <input type="submit" name="osubmit" value="編集">
+        </form>
+       
+        <?php
+            $date=date("Y年m月d日　H時i分s秒");
+            if(!empty($_POST["delete"])&& !empty($_POST["pass2"])){
+                $delete=$_POST["delete"];
+                $filename="m3_5.txt";
+                $pass2=$_POST["pass2"];
+                $lines=file($filename,FILE_IGNORE_NEW_LINES);
+                $fp=fopen($filename,"w");
+                fwrite($fp,"");
+                fclose($fp);
+                if(file_exists($filename)){
+                    foreach($lines as $line){
+                        list($num,$name,$com,$date,$pass1)=explode("<>",$line);
+                        if($pass1==$pass2&&$delete==$num){
+                        }else{
+                            $fp=fopen($filename,"a");
+                            fwrite($fp,$line.PHP_EOL);
+                            fclose($fp);
+                            echo $num.$name.$com.$date."<br>";
+                        }
+                        
+                    }            
+                }                
+            }
+        ?>
+        <?php
+            if(!empty($_POST["hensyuu"])){
+                if(!empty($_POST["name"])&&($_POST["comment"])&&($_POST["hensyuu"])&&($_POST["pass1"])){
+                    $name=($_POST["name"]);
+                    $com=($_POST["comment"]);
+                    $pass1=($_POST["pass1"]);
+                    $offedit=$_POST["hensyuu"];
+                    $filename="m3_5.txt";
+                    if(file_exists($filename)){
+                        $lines=file($filename,FILE_IGNORE_NEW_LINES);
+                        $fp=fopen($filename,"w");
+                        fwrite($fp,"");
+                        fclose($fp);
+                        foreach($lines as $line){
+                            $abc=explode("<>",$line);
+                            if($abc[0] == $offedit){
+                                $post=$abc[0]."<>".$name."<>".$com."<>".$date."<>".$pass1;
+                                $fp=fopen($filename,"a");
+                                fwrite($fp,$post.PHP_EOL);
+                                fclose($fp);
+                            }else{
+                                $fp=fopen($filename,"a");
+                                fwrite($fp,$line.PHP_EOL);
+                                fclose($fp);
+                            }
+                        }    
+                    }    
+                    if(file_exists($filename)){
+                        $lines=file($filename,FILE_IGNORE_NEW_LINES);
+                        foreach($lines as $line){
+                            list($num,$name,$com,$date,$pass1)=explode("<>",$line);
+                            echo $num.$name.$com.$date."<br>";
+                        }
+                    }
+                }
+            }
+            elseif(!empty($_POST["name"])&& !empty($_POST["comment"])&& !empty($_POST["pass1"])){
+                $name=($_POST["name"]);
+                $com=($_POST["comment"]);
+                $pass1=($_POST["pass1"]);
+                $filename="m3_5.txt";
+                if(file_exists($filename)){
+                    $lines=file($filename);
+                    $lastline=$lines[count(file($filename))-1];
+                    $lists=explode("<>",$lastline);
+                    $num=$lists[0]+1;
+                }else{
+                    $num=1;
+                }
+                $str=$num."<>".$name."<>".$com."<>".$date."<>".$pass1;
+                $fp=fopen($filename,"a");
+                fwrite($fp,$str.PHP_EOL);
+                fclose($fp);
+                if(file_exists($filename)){
+                    $lines=file($filename,FILE_IGNORE_NEW_LINES);
+                    foreach($lines as $line){
+                        list($num,$name,$com,$date,$pass1)=explode("<>",$line);
+                        echo $num.$name.$com.$date."<br>";
+                    }
+                }
+            }
+        ?>
+     </body>     
+</html>
