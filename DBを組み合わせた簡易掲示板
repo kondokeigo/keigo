@@ -2,18 +2,21 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>m5_1</title>
+        <title>DB掲示板</title>
     </head>
     <body>
         <?php
-            echo "ミッション５−１でーす！<br><hr><br>";
-            echo "Qみんなに質問<br>";
-            echo "明日、急遽休みになりました。<br>";
-            echo "みんなは明日何をする？<br><hr><br>";
-            $dsn='データベース名';
-            $user='ユーザー名';
-            $password='パスワード';
-            $pdo = new PDO($dsn,$user,$password);
+            echo "TECH-BASEプログラミングインターン成果物です。<br>";
+            echo "DBを組み合わせた掲示板を作りました。<br><hr><br>";
+            echo "①新規投稿フォームに「名前、コメント、パスワード」の入力欄を追加<br>";
+            echo "②「投稿番号、名前、コメント、投稿日時、パスワード」の保存<br>";
+            echo "③削除、編集フォームにも「パスワード」の入力欄を追加<br>";
+            echo "パスワードが一致した時のみ削除、編集機能が動作するようにする<br><hr><br>";
+            
+            $dsn='データベース名';//情報漏洩のため、仮名　「データベース」としている
+            $user='ユーザー名';//情報漏洩のため、仮名　「ユーザー名」としている
+            $password='パスワード';//情報漏洩のため、仮名「パスワード」としている
+            $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
             $sql="CREATE TABLE IF NOT EXISTS soccer5"
             ."("
             ."id INT AUTO_INCREMENT PRIMARY KEY,"
