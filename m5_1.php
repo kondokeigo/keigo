@@ -13,6 +13,7 @@
             $dsn='データベース名';
             $user='ユーザー名';
             $password='パスワード';
+            $pdo = new PDO($dsn,$user,$password);
             $sql="CREATE TABLE IF NOT EXISTS soccer5"
             ."("
             ."id INT AUTO_INCREMENT PRIMARY KEY,"
