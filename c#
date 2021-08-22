@@ -1,58 +1,145 @@
 using System;
-namespace TrainigSample{
+//名前空間
+namespace TrainigSample001{
+
+///<summsry>
+///(c#)用のサンプルプログラム（コンソールアプリ）
+///
+///ユーザーに数値を入力してもらい、入力された値の合計と平均を求める。
+///入力が終わったところで、入力値、合計、平均をコンソールに表示する。
+///</summsry>
     class Program{
+        
+        ///エントリポイント
         static void Main (string[] args){
+            
+            ///配列の宣言と初期化
+            ///int型の配列（ローカル変数）　inputNumbers を要素数0で初期化している。
             int[] inputNumber = { };
+            
+            //メソッドの呼び出し
+            //bool型の引数を指定し、staticメソッドを呼び出す。
+            //staticメソッドなので、「クラス名、メソッド名」で呼び出せる。
             Program.Prompt(false);
+            
+            //ブロック(while)
+            //継続条件にtrueを指定し、無限ループとしている。
             while(true){
+            
+                //クラスライブラリの利用
+                //ConsoleクラスのReadLineメソッドを呼び出す。
+                //ユーザーからの入力を受け付ける。
                 string input = Console.ReadLine();
+
+                //変数の宣言
+                //whileブロック内で有効なローカル変数を宣言
                 bool stop;
+                
+                //switch文による分岐
+                //文字列型の変数inputの値によって処理を分岐する
                 switch(input){
+                    
+                    //文字列リテラルを指定
                     case"":
                         stop = true;
                         break;
+                    
+                    //caseに一致しない場合
+                    //上記caseに一致しない場合はdefaultの処理が走る
                     default:
                         stop = false;
                         break;
                 }
+                
+                //比較演算子（優しい）
                 if (stop == true){
+                    
+                    //break文による中断
+                    //whileブロックを抜ける
                     break;
                 }
+                
+                //出力仮引数に渡す実引数、メソッド内で値が設定される
                 int parsedInput;
+                
+                //クラスライブラリの利用
+                //クラスライブラリに用意されているInt32構造体のTeyParseメソッド呼び出す
                 bool parseResult = Int32.TryParse(input,out parsedInput);
+                
+                //論理演算子（論理否定）
                 if (parseResult){
+                    
+                    //メソッドを呼び出す
                     Program.Prompt(true);
+                    
+                    //continue文による継続
                     continue;
                 }
+                
+                //配列の宣言（要素数はinputNumbersの要素数に1加算した値）
                 int[] tempInputNumbers = new int[inputNumbers.Length + 1] ;
+                
+                //配列の要素のコピー
                 Array.Copy(inputNumbers,tempInputNumbers,inputNumbers.Length);
+                
+                //配列の要素の代入
                 tempInputNumbers[tempInputNumbers.Length - 1] = parsedInput;
+                
+                //参照型変数の代入
                 inputNumbers = tempInputNumbers;
             }
+            
+            //ローカル変数の宣言、および、代入
             int total = 0;
+            
+            //foreach文による繰り返し
             foreach (int number in inputNumbers){
+                
+                //その他の演算子（加算して代入）
                 total += number;
             }
+            
+            //明示的な型変数
+            //int型の変数totalをdouble型にキャストしている
+            //暗黙の型変換
+            //double型を含む演算は、double型に揃えられる
+            //算術演算子（徐算）
             double average = (double)total / inputNumbers.Length;
+            
+            //クラスライブラリの使用
+            //コンソールに出力する
             Console.WriteLine();
             Console.WriteLine("___________________");
             Console.WriteLine("入力された数値は、次の" + inputNumbers.Length + "個の値です。");
             int index = 0;
+            
+            //doによる繰り返し
+            //継続条件としてインデックスがinputNumbersの要素数より小さい場合を指定
             do{
+                
+                //インクリメント演算子
                 Console.WriteLine(inputNumbers[index++]);
             }
             while (index < inputNumbers.Length);
             Console.WriteLine();
+            
+            //文字列の結合
             Console.WriteLine("合計は" + total + "です。");
             Console.WriteLine("平均は" + average + "です。");
             Console.WriteLine();
             Console.WriteLine("何かキーを押して終了してください。");
             Console.ReadKey();
         }
+        
+        //メソッドの宣言
         private static void Prompt(bool error){
+            
+            //if文よる分岐
             if (error){
                 Console.WriteLine("入力値に誤りがあります。");
             }
+            
+            //エスケープシーケンス（改行）の使用
             string message = "数値を入力し、Enterキーを押してください。";
             message += "¥n";
             message += "数値の入力が終わったら、そのまま、もう一度Enterキーを押してください。";
