@@ -1,16 +1,33 @@
 using System;
 
 namespace TrainingSample612{
+    
+    ///<summary>
+    ///研修（C#)用のサンプルプログラム（コンソールアプリ）
+    ///
+    ///コンソールに問題を表示し、ユーザーに正解番号を入力してもらう
+    ///正誤判定を行い、結果をコンソールに表示する
+    ///</summary>
     class Program{
         static void Main(string[]args){
+            
+            //インスタンスを生成
+            //コンストラクタで初期値を設定
             Problem Problem1 = new Problem(Message.QUESTION_WHERE_ARE_WE,3,"大阪府","東京都","北海道","愛知県");
             Problem Problem2 = new Problem(Message.QUESTION_WHERE_ARE_WE,2,"吹田市","新宿","札幌市","名古屋市");
             Problem Problem3 = new Problem(Message.QUESTION_WHERE_ARE_WE,3,"南区","北区","西区","東区");
             Problem Problem4 = new Problem(Message.QUESTION_WHERE_ARE_WE,1,"赤町1-1-1","青町2-2-2","黄町3-3-3","緑町4-4-4");
             Problem Problem5 = new Problem(Message.QUESTION_WHERE_ARE_WE,1,"redビル","buleビル","yellowビル","greenビル");
             Problem Problem6 = new Problem(Message.QUESTION_WHERE_ARE_WE,4,"1F","2F","3F","4F");
+            
+            //インスタンスを生成
+            //既定のコンストラクタ
             Examination exam = new Examination();
+            
+            //インスタンスフィールドに値を設定
             exam.Name = "c#練習問題";
+            
+            //インスタンスメソッドでProblemオブジェクトを追加
             exam.AddQuestion(problem1);
             exam.AddQuestion(problem2);
             exam.AddQuestion(problem3);
@@ -21,11 +38,17 @@ namespace TrainingSample612{
             int problemCount = 0;
             foreach (Problem problem in exam.Problems){
                 int answer;
+                
+                //オーバーロードしたメソッドを呼び出す
                 Console.WriteLine(Message.QUESTION, ++problemCount,problem.Question);
                 Console.WriteLine(Message.CHOICE,problem.Choice[0],problem.Choice[1],problem.Choice[2],problem.Choice[3]);
                 while (true){
+                    
+                    //定数の利用
                     Console.Write(Message.ANSWER_PROMPT);
                     string input = Console.ReadLine();
+                    
+                    //例外処理
                     try{
                         answer Int32.Parse(input);
                         break;
@@ -34,8 +57,12 @@ namespace TrainingSample612{
                         Console.WriteLine(Message.INVAID_INPUT_ERROR);
                     }
                 }
+                
+                //インスタンスメソッドの呼び出し
                 if (problem.IsCorrect(answer)){
                     correctAnswerCount++;
+                    
+                    //静的メソッドの呼び出し
                     Console.WriteLine(Message.CORRECT_ANSWER);
                 }
                 else{
@@ -54,10 +81,16 @@ namespace TrainingSample612{
     }
 }
 namespace TrainingSample612{
+    
+    //クラス定義
     class Examination{
+        
+        //インスタンスフィールド
         public string Name { get; set; }
         public int Score { get; set; }
         public Problem[] Problems { get; set; }
+        
+        //インスタンスメソッド
         public void AddQuestion(Problem problem){
             if (Problems == null){
                 Problems = new Problem[0];
@@ -69,11 +102,17 @@ namespace TrainingSample612{
     }
 }
 namespace TrainingSample612{
+    
+    //クラス定義
     class Problem{
         public string Question { get; set; }
         public string[] Choice { get; set; }
         public int AnswerIndex { get; set; }
+       
+       　　//仮引数配列
         public Problem(string question, int answer, params string[] choice){
+            
+            //自身のインスタンスを表すthis
             this.Question = question;
             this.Choice = choice;
             this.AnswerIndex = answer -1;
@@ -88,7 +127,11 @@ namespace TrainingSample612{
     }
 }
 namespace TrainingSample612{
+    
+    //クラス定義
     class Message{
+        
+        //const修飾子　　　定数
         public const string QUESTION_WHERE_ARE_WE = "ここはどこ？";
         public const string QUESTION = "問題{0} : {1}";
         public const string CHOICE = "1:{0}¥n2 : {1}¥n3 : {2}¥n4 : {3}";
@@ -99,6 +142,8 @@ namespace TrainingSample612{
         public const string RESULT = "{0}門中 {1}問正解";
         public const string EXCELLENT = "素晴らしい！";
         public const string ANYKEY_TO_EXIT = "何かキーを押して、プログラムを終了してください。";
+        
+        //static,readonly修飾子
         public static readonly string CHOICE_1 = "1";
         public static readonly string CHOICE_2 = "2";
         public static readonly string CHOICE_3 = "3";
