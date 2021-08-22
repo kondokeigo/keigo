@@ -1,8 +1,107 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>URL</key>
-	<string>https://paiza.io/projects/qHnz71GM246HkM66MLeHpg</string>
-</dict>
-</plist>
+using System;
+
+namespace TrainingSample612{
+    class Program{
+        static void Main(string[]args){
+            Problem Problem1 = new Problem(Message.QUESTION_WHERE_ARE_WE,3,"大阪府","東京都","北海道","愛知県");
+            Problem Problem2 = new Problem(Message.QUESTION_WHERE_ARE_WE,2,"吹田市","新宿","札幌市","名古屋市");
+            Problem Problem3 = new Problem(Message.QUESTION_WHERE_ARE_WE,3,"南区","北区","西区","東区");
+            Problem Problem4 = new Problem(Message.QUESTION_WHERE_ARE_WE,1,"赤町1-1-1","青町2-2-2","黄町3-3-3","緑町4-4-4");
+            Problem Problem5 = new Problem(Message.QUESTION_WHERE_ARE_WE,1,"redビル","buleビル","yellowビル","greenビル");
+            Problem Problem6 = new Problem(Message.QUESTION_WHERE_ARE_WE,4,"1F","2F","3F","4F");
+            Examination exam = new Examination();
+            exam.Name = "c#練習問題";
+            exam.AddQuestion(problem1);
+            exam.AddQuestion(problem2);
+            exam.AddQuestion(problem3);
+            exam.AddQuestion(problem4);
+            exam.AddQuestion(problem5);
+            exam.AddQuestion(problem6);
+            int correctAnswerCount = 0;
+            int problemCount = 0;
+            foreach (Problem problem in exam.Problems){
+                int answer;
+                Console.WriteLine(Message.QUESTION, ++problemCount,problem.Question);
+                Console.WriteLine(Message.CHOICE,problem.Choice[0],problem.Choice[1],problem.Choice[2],problem.Choice[3]);
+                while (true){
+                    Console.Write(Message.ANSWER_PROMPT);
+                    string input = Console.ReadLine();
+                    try{
+                        answer Int32.Parse(input);
+                        break;
+                    }
+                    catch (Examination e){
+                        Console.WriteLine(Message.INVAID_INPUT_ERROR);
+                    }
+                }
+                if (problem.IsCorrect(answer)){
+                    correctAnswerCount++;
+                    Console.WriteLine(Message.CORRECT_ANSWER);
+                }
+                else{
+                    Console,WriteLine(Message.INCORRECT_ANSWER);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(Message.RESULT,exam.Problems.Length,correctAnswerCount);
+            if (exam.Problems.Length == correctAnswerCount){
+                Console.WriteLine(Message.EXCELLENT);
+            }
+            Console.WriteLine();
+            Console.WriteLine(Message.ANYKEY_TO_EXIT);
+            Console.ReadKey();
+        }
+    }
+}
+namespace TrainingSample612{
+    class Examination{
+        public string Name { get; set; }
+        public int Score { get; set; }
+        public Problem[] Problems { get; set; }
+        public void AddQuestion(Problem problem){
+            if (Problems == null){
+                Problems = new Problem[0];
+            }
+            Problem[] temp = new Problem[Problems.Length + 1];
+            Array.Copy(Problems,temp,Problems.Length);
+            Problems = temp;
+        }
+    }
+}
+namespace TrainingSample612{
+    class Problem{
+        public string Question { get; set; }
+        public string[] Choice { get; set; }
+        public int AnswerIndex { get; set; }
+        public Problem(string question, int answer, params string[] choice){
+            this.Question = question;
+            this.Choice = choice;
+            this.AnswerIndex = answer -1;
+        }
+        public bool IsCorrect(int answer){
+            bool result = false;
+            if ((answer -1) == AnswerIndex){
+                result = true;
+            }
+            return result;
+        }
+    }
+}
+namespace TrainingSample612{
+    class Message{
+        public const string QUESTION_WHERE_ARE_WE = "ここはどこ？";
+        public const string QUESTION = "問題{0} : {1}";
+        public const string CHOICE = "1:{0}¥n2 : {1}¥n3 : {2}¥n4 : {3}";
+        public const string ANSWER_PROMPT = "答え→"；
+        public const string INVAID_INPUT_ERROR = "1~4を入力してください。";
+        public const string CORRECT_ANSWER = "正解！";
+        public const string INCORRECT_ANSWER = "残念！不正解";
+        public const string RESULT = "{0}門中 {1}問正解";
+        public const string EXCELLENT = "素晴らしい！";
+        public const string ANYKEY_TO_EXIT = "何かキーを押して、プログラムを終了してください。";
+        public static readonly string CHOICE_1 = "1";
+        public static readonly string CHOICE_2 = "2";
+        public static readonly string CHOICE_3 = "3";
+        public static readonly string CHOICE_4 = "4";
+    }
+}
