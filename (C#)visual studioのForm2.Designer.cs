@@ -1,4 +1,9 @@
-﻿namespace WindowsFormsApp14
+//大阪学院大学の近藤経伍です。
+//大阪の企業のインターンシップに参加した時の最終成果物です。
+//visual studioとc#を使用してインターン管理システムを作りました。
+//詳細としては、ある年のインターンシップに参加した方達の情報が一覧にでて情報の管理がしやすいようになっております。
+
+namespace WindowsFormsApp14
 {
     partial class Form2
     {
